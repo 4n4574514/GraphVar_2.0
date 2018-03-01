@@ -1,0 +1,34 @@
+function Results = variability(Result_tmp,dim,n_dyn)
+t = tic;
+% Amount of sliding Windows per person
+[y,windows]=size(Result_tmp);
+% Amount of Regions
+[z,regions]=size(Result_tmp{1,1});
+
+% Calculate mutations
+connections=(windows-1)*windows/2;
+    
+A=zeros(regions,1);
+Result_tmp = reshape(cell2mat(Result_tmp),264,264,n_dyn);
+            I = triu(true(regions,regions),1);
+
+for w = 1:regions % Walk through regions
+    Corr = corr(squeeze(Result_tmp(:,w,:)),squeeze(Result_tmp(:,w,:)));
+    
+    MAT = squeeze(Result_tmp(:,w,:))';
+    MAT = bsxfun(@minus, MAT, mean(MAT));
+    STD = std(MAT);
+    STD(STD == 0) = 1;
+    MAT = bsxfun(@rdivide, MAT, STD);
+    COR = MAT * MAT';
+    
+    Corr=0.5*log((1+Corr)./(1-Corr)); 
+    A(w) = sum(Corr(I));
+end 
+
+RZRes=A/connections;
+% R-Z Inverse Transformation
+CorrRes=(exp(2*RZRes)-1)./(exp(2*RZRes)+1);
+disp(toc(t));
+Results=num2cell(CorrRes);
+

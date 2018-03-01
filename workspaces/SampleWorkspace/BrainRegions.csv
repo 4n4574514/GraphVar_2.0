@@ -1,0 +1,116 @@
+1;Precentral_L;Precentral gyrus (Left);-40;-6;51
+1;Precentral_R;Precentral gyrus (Right);40;-8;52
+1;Frontal_Sup_L;Superior frontal gyrus, dorsolateral (Left);-19;35;42
+1;Frontal_Sup_R;Superior frontal gyrus, dorsolateral (Right);20;31;44
+1;Frontal_Sup_Orb_L;Superior frontal gyrus, orbital part (Left);-18;47;-13
+1;Frontal_Sup_Orb_R;Superior frontal gyrus, orbital part (Right);17;48;-14
+1;Frontal_Mid_L;Middle frontal gyrus (Left);-34;33;35
+1;Frontal_Mid_R;Middle frontal gyrus (Right);37;33;34
+1;Frontal_Mid_Orb_L;Middle frontal gyrus orbital part (Left);-32;50;-10
+1;Frontal_Mid_Orb_R;Middle frontal gyrus orbital part (Right);32;53;-11
+1;Frontal_Inf_Oper_L;Inferior frontal gyrus, opercular part (Left);-49;13;19
+1;Frontal_Inf_Oper_R;Inferior frontal gyrus, opercular part (Right);49;15;21
+1;Frontal_Inf_Tri_L;Inferior frontal gyrus, triangular part (Left);-47;30;14
+1;Frontal_Inf_Tri_R;Inferior frontal gyrus, triangular part (Right);49;30;14
+1;Frontal_Inf_Orb_L;Inferior frontal gyrus, orbital part (Left);-37;31;-12
+1;Frontal_Inf_Orb_R;Inferior frontal gyrus, orbital part (Right);40;32;-12
+1;Rolandic_Oper_L;Rolandic operculum (Left);-48;-8;14
+1;Rolandic_Oper_R;Rolandic operculum (Right);52;-6;15
+1;Supp_Motor_Area_L;Supplementary motor area (Left);-6;5;61
+1;Supp_Motor_Area_R;Supplementary motor area (Right);8;0;62
+1;Olfactory_L;Olfactory cortex (Left);-9;15;-12
+1;Olfactory_R;Olfactory cortex (Right);8;16;-11
+1;Frontal_Sup_Medial_L;Superior frontal gyrus, medial (Left);-6;49;31
+1;Frontal_Sup_Medial_R;Superior frontal gyrus, medial (Right);8;51;30
+1;Frontal_Med_Orb_L;Superior frontal gyrus, medial orbital (Left);-6;54;-7
+1;Frontal_Med_Orb_R;Superior frontal gyrus, medial orbital (Right);7;52;-7
+1;Rectus_L;Gyrus rectus (Left);-6;37;-18
+1;Rectus_R;Gyrus rectus (Right);7;36;-18
+1;Insula_L;Insula (Left);-36;7;3
+1;Insula_R;Insula (Right);38;6;2
+1;Cingulum_Ant_L;Anterior cingulate and paracingulate gyri (Left);-5;35;14
+1;Cingulum_Ant_R;Anterior cingulate and paracingulate gyri (Right);7;37;16
+1;Cingulum_Mid_L;Median cingulate and paracingulate gyri (Left);-6;-15;42
+1;Cingulum_Mid_R;Median cingulate and paracingulate gyri (Right);7;-9;40
+1;Cingulum_Post_L;Posterior cingulate gyrus (Left);-6;-43;25
+1;Cingulum_Post_R;Posterior cingulate gyrus (Right);6;-42;22
+1;Hippocampus_L;Hippocampus (Left);-26;-21;-10
+1;Hippocampus_R;Hippocampus (Right);28;-20;-10
+1;ParaHippocampal_L;Parahippocampal gyrus (Left);-22;-16;-21
+1;ParaHippocampal_R;Parahippocampal gyrus (Right);24;-15;-20
+1;Amygdala_L;Amygdala (Left);-24;-1;-17
+1;Amygdala_R;Amygdala (Right);26;1;-18
+1;Calcarine_L;Calcarine fissure and surrounding cortex (Left);-8;-79;6
+1;Calcarine_R;Calcarine fissure and surrounding cortex (Right);15;-73;9
+1;Cuneus_L;Cuneus (Left);-7;-80;27
+1;Cuneus_R;Cuneus (Right);13;-79;28
+1;Lingual_L;Lingual gyrus (Left);-16;-68;-5
+1;Lingual_R;Lingual gyrus (Right);15;-67;-4
+1;Occipital_Sup_L;Superior occipital gyrus (Left);-18;-84;28
+1;Occipital_Sup_R;Superior occipital gyrus (Right);23;-81;31
+1;Occipital_Mid_L;Middle occipital gyrus (Left);-33;-81;16
+1;Occipital_Mid_R;Middle occipital gyrus (Right);36;-80;19
+1;Occipital_Inf_L;Inferior occipital gyrus (Left);-37;-78;-8
+1;Occipital_Inf_R;Inferior occipital gyrus (Right);37;-82;-8
+1;Fusiform_L;Fusiform gyrus (Left);-32;-40;-20
+1;Fusiform_R;Fusiform gyrus (Right);33;-39;-20
+1;Postcentral_L;Postcentral gyrus (Left);-43;-23;49
+1;Postcentral_R;Postcentral gyrus (Right);40;-25;53
+1;Parietal_Sup_L;Superior parietal gyrus (Left);-24;-60;59
+1;Parietal_Sup_R;Superior parietal gyrus (Right);25;-59;62
+1;Parietal_Inf_L;Inferior parietal, but supramarginal and angular gyri (Left);-44;-46;47
+1;Parietal_Inf_R;Inferior parietal, but supramarginal and angular gyri (Right);45;-46;50
+1;SupraMarginal_L;Supramarginal gyrus (Left);-57;-34;30
+1;SupraMarginal_R;Supramarginal gyrus (Right);57;-32;34
+1;Angular_L;Angular gyrus (Left);-45;-61;36
+1;Angular_R;Angular gyrus (Right);45;-60;39
+1;Precuneus_L;Precuneus (Left);-8;-56;48
+1;Precuneus_R;Precuneus (Right);9;-56;44
+1;Paracentral_Lobule_L;Paracentral lobule (Left);-9;-25;70
+1;Paracentral_Lobule_R;Paracentral lobule (Right);6;-32;68
+1;Caudate_L;Caudate nucleus (Left);-12;11;9
+1;Caudate_R;Caudate nucleus (Right);14;12;9
+1;Putamen_L;Lenticular nucleus, putamen (Left);-25;4;2
+1;Putamen_R;Lenticular nucleus, putamen (Right);27;5;2
+1;Pallidum_L;Lenticular nucleus, pallidum (Left);-19;0;0
+1;Pallidum_R;Lenticular nucleus, pallidum (Right);20;0;0
+1;Thalamus_L;Thalamus (Left);-12;-18;8
+1;Thalamus_R;Thalamus (Right);12;-18;8
+1;Heschl_L;Heschl gyrus (Left);-43;-19;10
+1;Heschl_R;Heschl gyrus (Right);45;-17;10
+1;Temporal_Sup_L;Superior temporal gyrus (Left);-54;-21;7
+1;Temporal_Sup_R;Superior temporal gyrus (Right);57;-22;7
+1;Temporal_Pole_Sup_L;Temporal pole: superior temporal gyrus (Left);-41;15;-20
+1;Temporal_Pole_Sup_R;Temporal pole: superior temporal gyrus (Right);47;15;-17
+1;Temporal_Mid_L;Middle temporal gyrus (Left);-57;-34;-2
+1;Temporal_Mid_R;Middle temporal gyrus (Right);56;-37;-1
+1;Temporal_Pole_Mid_L;Temporal pole: middle temporal gyrus (Left);-37;15;-34
+1;Temporal_Pole_Mid_R;Temporal pole: middle temporal gyrus (Right);43;15;-32
+1;Temporal_Inf_L;Inferior temporal gyrus (Left);-51;-28;-23
+1;Temporal_Inf_R;Inferior temporal gyrus (Right);53;-31;-22
+0;Cerebelum_Crus1_L;Cerebelum_Crus1_L;-36;-67;-29
+0;Cerebelum_Crus1_R;Cerebelum_Crus1_R;37;-67;-30
+0;Cerebelum_Crus2_L;Cerebelum_Crus2_L;-29;-73;-38
+0;Cerebelum_Crus2_R;Cerebelum_Crus2_R;32;-69;-40
+0;Cerebelum_3_L;Cerebelum_3_L;-9;-37;-19
+0;Cerebelum_3_R;Cerebelum_3_R;12;-34;-19
+0;Cerebelum_4_5_L;Cerebelum_4_5_L;-15;-43;-17
+0;Cerebelum_4_5_R;Cerebelum_4_5_R;17;-43;-18
+0;Cerebelum_6_L;Cerebelum_6_L;-23;-59;-22
+0;Cerebelum_6_R;Cerebelum_6_R;25;-58;-24
+0;Cerebelum_7b_L;Cerebelum_7b_L;-33;-60;-43
+0;Cerebelum_7b_R;Cerebelum_7b_R;35;-64;-47
+0;Cerebelum_8_L;Cerebelum_8_L;-26;-55;-48
+0;Cerebelum_8_R;Cerebelum_8_R;25;-56;-49
+0;Cerebelum_9_L;Cerebelum_9_L;-11;-49;-46
+0;Cerebelum_9_R;Cerebelum_9_R;9;-49;-46
+0;Cerebelum_10_L;Cerebelum_10_L;-23;-34;-42
+0;Cerebelum_10_R;Cerebelum_10_R;26;-34;-41
+0;Vermis_1_2;Vermis_1_2;1;-39;-20
+0;Vermis_3;Vermis_3;1;-40;-11
+0;Vermis_4_5;Vermis_4_5;1;-52;-6
+0;Vermis_6;Vermis_6;1;-67;-15
+0;Vermis_7;Vermis_7;1;-72;-25
+0;Vermis_8;Vermis_8;1;-64;-34
+0;Vermis_9;Vermis_9;1;-55;-35
+0;Vermis_10;Vermis_10;0;-46;-32

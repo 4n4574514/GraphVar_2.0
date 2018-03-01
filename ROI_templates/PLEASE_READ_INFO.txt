@@ -1,0 +1,1 @@
+The ROI templates including .nii files are originally provided in the GRETNA toolbox: http://www.nitrc.org/projects/gretna/

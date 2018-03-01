@@ -1,0 +1,19 @@
+
+---- Known Bugs on Windows and MAC with Matlab 2017 and ElasticNet machine learning -----------
+
+This GraphVar version contains a compiled version of Glmnet for Matlab
+
+provided here:
+https://web.stanford.edu/~hastie/glmnet_matlab/download.html
+
+As this mex file was compiled under Matlab 2012a we experienced compatibility issues when
+running ElasticNet models on MAC and Windows with newer Matlab versions (2017). On MAC the file
+appears as invalid and on Windows ElasticNet may crash in some cases and cause Matlab to freeze.
+
+If you experience these issues please downgrade to an older Matlab version or use Ubuntu/Linux systems
+(here we did not experience any issues).
+
+We highly appologize for this inconvenience and will try uploading a more compatible mex file with
+the next major fix (within the next weeks).
+
+WE ARE SORRY!

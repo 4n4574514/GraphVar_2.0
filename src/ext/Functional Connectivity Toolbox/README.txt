@@ -1,0 +1,1 @@
+the mutual information script is part of the Connectivity Toolbox and licensed respectively.

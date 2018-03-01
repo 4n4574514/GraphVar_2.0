@@ -1,0 +1,31 @@
+Scan_ID;Subj_ID;age;sex;research_site;IQ;eating_contest_chilli;beer_pong_score;fantasy_score
+sample_01a;sample_01;21;female;New York;100;13;13;68,1
+sample_02a;sample_02;43;female;New York;130;15;15;23,9
+sample_03a;sample_03;26;female;New York;115;21;21;28,8
+sample_04a;sample_04;25;female;Paris;98;10;10;40,2
+sample_05a;sample_05;22;female;Paris;55;20;20;48,4
+sample_06a;sample_06;33;female;Paris;120;17;17;43,5
+sample_07a;sample_07;36;female;Paris;80;16;16;32,1
+sample_08a;sample_08;33;male;Paris;99;15;15;37
+sample_09a;sample_09;39;male;Paris;65;25;25;46,8
+sample_10a;sample_10;46;male;Paris;140;23;23;43,5
+sample_11a;sample_11;33;male;London;122;18;18;48,4
+sample_12a;sample_12;46;male;London;130;23;23;46,8
+sample_13a;sample_13;42;male;London;111;19;19;46,8
+sample_14a;sample_14;47;male;London;82;14;14;41,9
+sample_15a;sample_15;35;male;New York;79;16;16;40,2
+sample_01b;sample_01;21;female;New York;48;13;25;68,1
+sample_02b;sample_02;43;female;New York;47;15;23;23,9
+sample_03b;sample_03;26;female;New York;53;21;18;28,8
+sample_04b;sample_04;25;female;Paris;56;10;23;40,2
+sample_05b;sample_05;22;female;Paris;62;20;19;48,4
+sample_06b;sample_06;33;female;Paris;66;17;14;43,5
+sample_07b;sample_07;36;female;Paris;68;16;47;32,1
+sample_08b;sample_08;33;male;Paris;73;15;53;37
+sample_09b;sample_09;39;male;Paris;63;25;47;46,8
+sample_10b;sample_10;46;male;Paris;48;23;53;43,5
+sample_11b;sample_11;33;male;London;64;18;56;48,4
+sample_12b;sample_12;46;male;London;58;23;62;46,8
+sample_13b;sample_13;42;male;London;51;19;66;46,8
+sample_14b;sample_14;47;male;London;46;14;68;41,9
+sample_15b;sample_15;35;male;New York;71;16;31;40,2
