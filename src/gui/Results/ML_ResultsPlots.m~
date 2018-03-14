@@ -350,14 +350,141 @@ end
              
 axes(handles.ResultAxes);   % switch back to main ResultAxes 
 
+%%  Export ML Results to CSV or Excel Spreadsheet %%%%%%%%% 
+         % DATA.Properties.VariableNames = {'Variable1', 'Variable2'} 
+         % if unequal, use padcat 
+         % simplify script (!) => for loops 
 
+% fetch output of current function called   
 if get(handles.export_btn, 'Value') == 1
-    export_btn_ml(hObject,handles, Result.modelType, plotName, Result.NXLAB, metricSelected)
+  if ~verLessThan('matlab', '8.3')
+     if  any(regexp(Result.modelType, 'classification$'))    %% CLASSIFICATION DATA 
+        switch plotName
+                case 'ROC curve'  
+                           if ~isempty(Result.NXLAB)     
+                               DATA = padcat([TPR2(1:length(TPR))], [FPR2(1:length(TPR))], [TPR2(length(TPR):end)], [FPR2(length(TPR):end)], ...
+                                   [AUC], [AUC2], [PVAL], [PVAL2]);
+                               DATA = table( [DATA(:,1)], [DATA(:,2)], [DATA(:,3)], [DATA(:,4)], [DATA(:,5)], [DATA(:,6)], [DATA(:,7)], [DATA(:,8)] );
+                                   
+                           else
+                                    DATA = padcat([TPR],[FPR], [AUC], [PVAL] ); 
+                                    DATA = table( [DATA(:,1)], [DATA(:,2)], [DATA(:,3)], [DATA(:,4)]  );
+                                 if Result.nRandom > 0 
+                                     DATA.Properties.VariableNames = {'TPR', 'FPR', 'AUC', 'PVAL_PN'};
+                                 else 
+                                     DATA.Properties.VariableNames =  {'TPR'  'FPR' 'AUC' 'PVAL_P'};
+                                 end
+                           end
+                           
+                case 'Precision-Recall Curve'  
+                       if ~isempty(Result.NXLAB)     
+                               DATA = padcat([PREC2(1:length(PREC))], [RECALL2(1:length(PREC))], [PREC2(length(PREC):end)], [RECALL2(length(PREC):end)], [AUC], [AUC2]);
+                               DATA = table(   [DATA(:,1)], [DATA(:,2)], [DATA(:,3)], [DATA(:,4)], [DATA(:,5)], [DATA(:,6)] );
+                               DATA.Properties.VariableNames =  {'PREC' 'RECALL' 'PREC_Nui' 'RECALL_Nui' 'AUC' 'AUC_Nui'};                 
+                       else
+                               DATA = padcat([PREC], [RECALL], [AUC]);
+                               DATA = table( [DATA(:,1)], [DATA(:,2)], [DATA(:,3)] );
+                               DATA.Properties.VariableNames =  {'PREC' 'RECALL' 'AUC'};   
+                       end
+                           
+                case 'Confusion matrix'      %% fix to combine for nuisance 
+                     if ~isempty(Result.NXLAB)  &&   metricSelected == 3               
+                        DATA = table([c_mat], [c_mat2]);                    
+                     else
+                         DATA = table([c_mat]);
+                       
+                     end
+                     
+                case 'Feature Weights' 
+                        if Result.nRandom > 0 
+                       DATA = table([FEATURE], [WEIGHTS], [P_VALUES_P], [P_VALUES_NP]);                     
+                        else
+                       DATA = table([FEATURE], [WEIGHTS], [P_VALUES_P]);             
+                        end      
+                        
+            case 'Histogram (Permutation Performance)' 
+                     if ~isempty(Result.NXLAB) 
+                      DATA = padcat( [PVAL], [MET], [MET_perm], [PVAL2], [MET2], [MET_perm2]); 
+                      DATA = table( [DATA(:,1)], [DATA(:,2)], [DATA(:,3)], [DATA(:,4)], [DATA(:,5)], [DATA(:,6)] );
+                      DATA.Properties.VariableNames =  {'PVAL' 'MET' 'MET_perm', 'PVAL_Nui' 'MET_Nui' 'MET_perm_Nui',}; 
+                     else
+                      DATA = padcat( [PVAL], [MET], [MET_perm] );
+                      DATA = table( [DATA(:,1)], [DATA(:,2)], [DATA(:,3)] );
+                      DATA.Properties.VariableNames =  {'PVAL' 'MET' 'MET_perm'}; 
+                     end
+        end
+      
+    elseif  any(regexp(Result.modelType, 'regression$'))  %% REGRESSION DATA 
+        switch plotName   
+                    case 'Scatter Plot'
+                              if ~isempty(Result.NXLAB)          
+                                  DATA = padcat([Y2(1:length(PRED))], [PRED2(1:length(PRED))], [Y2(length(PRED)+1:end)], [PRED2(length(PRED)+1:end)], [R(:, thresh)], [R2]); 
+                                  DATA = table( [DATA(:,1)], [DATA(:,2)], [DATA(:,3)], [DATA(:,4)], [DATA(:,5)], [DATA(:,6)] );
+                                  DATA.Properties.VariableNames =  {'Actual', 'Predicted', 'Actual_Nui', 'Predicted_Nui', 'R2', 'R2_Nui'};               
+                              else
+                                 % error on PC J multiple thresholds 
+                                  DATA = padcat([Y], [PRED], [R]); 
+                                  DATA = table( [DATA(:,1)], [DATA(:,2)], [DATA(:,3)]);
+                                  DATA.Properties.VariableNames =  {'Actual', 'Predicted', 'R2'};               
+                              end
+
+                    case 'Residuals Plot'
+                               if ~isempty(Result.NXLAB)         
+                                  DATA = padcat([RSDL2(:,1)], [PRED2(:,1)], [RSDL2(:,2)], [PRED2(:,2)]); 
+                                  DATA = table( [DATA(:,1)], [DATA(:,2)], [DATA(:,3)], [DATA(:,4)] );
+                                  DATA.Properties.VariableNames =  {'SD_Resid', 'Predicted', 'SD_Resid_Nui', 'Predicted_Nui'};               
+                             else
+                                  DATA = padcat([RSDL], [PRED]); 
+                                  DATA = table( [DATA(:,1)], [DATA(:,2)] );
+                                  DATA.Properties.VariableNames =  {'SD_Resid', 'Predicted'};               
+                               end
+
+                    case 'Feature Weights' 
+                                if Result.nRandom > 0 
+                                   DATA = table([FEATURE], [WEIGHTS], [P_VALUES_P], [P_VALUES_NP]);   
+                                else
+                                    DATA = table([FEATURE], [WEIGHTS], [P_VALUES_P]);
+                                end
+
+                case 'Histogram (Permutation Performance)' 
+                             if ~isempty(Result.NXLAB) 
+                                  DATA = padcat( [PVAL], [MET], [MET_perm], [PVAL2], [MET2], [MET_perm2]); 
+                                  DATA = table( [DATA(:,1)], [DATA(:,2)], [DATA(:,3)], [DATA(:,4)], [DATA(:,5)], [DATA(:,6)] );
+                                  DATA.Properties.VariableNames =  {'PVAL' 'MET' 'MET_perm', 'PVAL_Nui' 'MET_Nui' 'MET_perm_Nui',}; 
+                             else
+                                  DATA = padcat( [PVAL], [MET], [MET_perm] );
+                                  DATA = table( [DATA(:,1)], [DATA(:,2)], [DATA(:,3)] );
+                                  DATA.Properties.VariableNames =  {'PVAL' 'MET' 'MET_perm'}; 
+                             end
+        end 
+    
+    end
+ 
+            if ~verLessThan('matlab', '8.3')
+                [fname, ~] = uiputfile({'.xlsx'; '.csv'}); % Type in name of file.
+                 writetable(DATA, fname);
+            else %2014a or older
+                 % do custom solution later  
+            end
+         
+  else % Matlab versions below 2013b dont have table funct.
+         % Solution for export data, older matlab versions 
+  end
+            
 end
 
+guidata(hObject, handles);
 
 
-%% hover text function for ML plots 
+
+
+
+
+
+%% Hover text and transformation functions 
+
+
+%% hover text function for ML
 function pressML(~,~,handles,PlotType,LineX,LineY,LineStat,LineP, LAB, PlotName)
 
 axes(handles.ResultAxes);
@@ -475,5 +602,81 @@ else
     set(handles.box, 'Visible', 'off');
 end
 
+%% Reshape Corr Matrix (Feature Weights)
+function [STAT] = SHAPE_ML(handles,STAT, isHalf)
+% Transforms Weights or P-value scores to corr matrix size
+    if isHalf == 1
+        %transform to fit brainstring x brainstring
+        STAT_ = zeros(length(handles.BrainStrings), length(handles.BrainStrings));
+        P_ = zeros(length(handles.BrainStrings), length(handles.BrainStrings));
+        STAT_(~triu(ones(size(P_, 1)))) =  STAT(:, 1);    %fill in values
+        STAT = STAT_ + STAT_' ;
+    else
+        STAT = reshape (STAT, [], length(handles.BrainStrings)); %keep non full corr matrix
+    end
 
+%% Reshape Feature Weights Values and Labels
+function [STAT, SLAB] = SHAPE_PLOT(STAT, SLAB)
+A = length(STAT);
+A = length (SLAB);
+ if A >=  10          
+        if A >=  10     
+            DW = 10;
+        end
+
+        if  A >= 500
+        DW = 100;
+        end
+
+        C = mod(A, DW);
+        R =  A - C;
+        T = R/DW;
+        STAT1 = STAT(1:R);
+        STAT2 = STAT(R+1:end);   %remainder
+
+        STAT3 = NaN(DW,1);
+        STAT3= padcat(STAT2, STAT3);
+        STAT3 = STAT3(:,1);
+        STAT1 = [STAT1; STAT3];
+        STAT = reshape (STAT1, DW, (T+1));
+
+
+        SLAB2 = (cell((DW - C), 1));
+        SLAB2(:) = {'NaN'};
+        SLAB1 = [SLAB(1:end); SLAB2(1:end)];
+        SLAB = reshape (SLAB1, DW, (T+1));     
+ end
+ 
+%% Transform (fetch) 
+function [MET_perm, MET] = transform_metric (metricSelected, MET1, MET2, MET1_PERM, MET2_PERM, thresh, var, PlotColor2, var_case)
+% transforms selected actual and null distribution metrics for histogram
+
+%[~, b] = size(MET1);
+    if PlotColor2 == 'c' && ~var_case %nuisance case 
+        if metricSelected == 1
+            MET = MET1(:, thresh, var);    % Accuracy OR R2
+            MET_perm = MET1_PERM(:, thresh, :, var);
+        elseif metricSelected == 2 
+            MET = MET2(:, thresh, var);      % ie Area Under Curve 
+            MET_perm = MET2_PERM(:, thresh, :, var);
+        elseif metricSelected == 3 
+            MET = 100 - MET2(:, thresh, var);      % ie Error 
+            MET_perm = 100 - MET2_PERM(:, thresh, :, var);
+        end 
+        
+         
+    elseif PlotColor2 == 'm'  || var_case                                           %nuisance case or variable only 
+        if metricSelected == 1
+            MET = MET1(:, var);   % Accuracy OR R2
+            MET_perm = MET1_PERM(:, :, var);
+        elseif metricSelected == 2 
+            MET = MET2(:, var);     % ie Area Under Curve 
+            MET_perm = MET2_PERM(:, :, var);
+        elseif metricSelected == 3 
+            MET = 100 - MET2(:, var);    % ie Error 
+            MET_perm = 100 - MET2_PERM(:, :, var);
+        end                  
+           
+    end
+  
 
