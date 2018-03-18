@@ -1,6 +1,14 @@
-function corr_weights(handles, W, P_VAL, CORRECTION, isHalf, SLAB)
+function [W, P_VAL, PlotType] = matrix_weights(handles, W, P_VAL, CORRECTION, isHalf)
+%% feature weights (for classification or regression) for matrix display only
 % nested inside feature_weights function 
 % displays feature weights for correlation matrix alone
+% handles: GUI input
+% W: feature weights 
+% P_VAL: p values for feature weights 
+% CORRECTION: user selection of alpha correction mode
+% isHalf: if mirror connectivity matrix (true), if full matrix (false)
+
+
     set(handles.alt_metric ,'Visible','off') ;
     
     %HIDE STAT BASED ON NON SIGNIFICANT PVALS
@@ -20,8 +28,8 @@ function corr_weights(handles, W, P_VAL, CORRECTION, isHalf, SLAB)
                 P_VAL(PVAL_NS) = nan;
             end
 
-    [W] = SHAPE_ML(handles,W, isHalf);
-    [P_VAL] = SHAPE_ML(handles,P_VAL, isHalf);
+    [W] = shape_ml(handles,W, isHalf);
+    [P_VAL] = shape_ml(handles,P_VAL, isHalf);
 
     % switch between PVAL and Weights display 
     if  get(handles.PValues, 'Value') == 1
@@ -62,7 +70,6 @@ end
     
     % transmit info hovertext
     PlotType = 3;
-    PlotName = 'W';
-    set(handles.ResultFig,'WindowButtonMotionFcn', ...
-    {@pressML,handles,PlotType, W, P_VAL, [], [], PlotName}); 
+    PlotName = 'WM';
+    
 end

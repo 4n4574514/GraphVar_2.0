@@ -1,12 +1,13 @@
+
+function  [PREC, RECALL, AUC] = pr_curve(handles, featurelist, PRED, Y, linecolor, var, thresh)
 %% PR Curve Plot (Classification)
-function  [PREC, RECALL, AUC] = PR_curve(handles, featurelist, PRED, Y, LineColor, PREC1, RECALL1, var, thresh)
 % Preps and plots Receiver Operating Characteristic curve 
 % Input arguments %%%%% 
 % handles:GUI handles
 % featurelist: list of features used in prediction
 % PRED: Predicted Outcome 
 % Y: Actual Measure 
-% Input mode: Full model or Nuisance Model (based on nuisance covariates only) 
+% 
      
 % reset feature listbox AND brain areas listbox
 set(handles.HideNSig_Check,'Enable','off');
@@ -44,11 +45,11 @@ RECALL = zeros(length(UY), 1);
     end
 
 C1a = plot(RECALL, PREC, 'LineWidth', 1);
-set(C1a, 'Color', LineColor);
+set(C1a, 'Color', linecolor);
 hold on
 C1 = plot(RECALL, PREC, 'o');
 set(C1,'LineWidth', 2);
-set(C1, 'Color', LineColor); 
+set(C1, 'Color', linecolor); 
 
 AUC = trapz(RECALL, PREC);  %AUC PR calculated manually 
 xlim([0 1.05]);
@@ -57,14 +58,7 @@ ylim([0 1.05]);                 % correct axis limits so plot allows border visu
 xlabel({''; 'Recall (TPR)'; ''});
 ylabel({'Precision (PPV)'; ''});
 title({'Precision-Recall Curve'; ''});
+grid minor
+
 end
 
-% % fix hover tool -- p values
-% LAB = {'RECALL', 'PREC'};
-% PREC = [PREC1; PREC];
-% RECALL = [RECALL1; RECALL];
-% 
-% PlotType = 1;     %ie plot with line or trend 
-% PlotName = 'PR'; 
-% set(handles.ResultFig,'WindowButtonMotionFcn', ...
-% {@pressML,handles,PlotType,RECALL, PREC, [], [], LAB, PlotName});   

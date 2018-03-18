@@ -26,7 +26,7 @@ global isNetFuncGUI;
 %% Switch to ML mode 			
 doML = strncmp(handles.Files{1}, 'ML', 2); 			
   if doML 			
-      ML_ResultsPlots(hObject,handles) 			
+      Results_PlotView_ML(hObject,handles) 			
   else  
      
 cla(handles.ResultAxes,'reset');

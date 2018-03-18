@@ -114,16 +114,16 @@ end
     FEATURE = []; % fix output for matrix only  
     P_VALUES_P = [];
     P_VALUES_NP = [];
-   
+ 
+   any(strcmp(sel_feat, 'edge_betweenness_bin'))
+    
 %% CORR_MATRIX ONLY 
-    if (any(strcmp(sel_feat, 'corr_area'))   &&  (length(sel_feat) == 1)  || any(cellfun(@(x)contains(x,'edge'), XLAB)) )
+    if any(strcmp(sel_feat, 'corr_area'))   &&  (length(sel_feat) == 1)  
          % index raw matrix weights & pvals
-       
-            if ~any(cellfun(@(x)contains(x,'edge'), XLAB))
-                RM_index = cellfun(@(x)contains(x,'vs'), XLAB);
-            else
-                RM_index = cellfun(@(x)contains(x,'edge'), XLAB);
-            end
+           
+         RM_index = cellfun(@(x)~isempty(strfind(x,'vs')), XLAB)
+            
+            
             SLAB = XLAB(RM_index);
             W =  W(RM_index);  
             P_VAL = P_VAL(RM_index); 

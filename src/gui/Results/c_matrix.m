@@ -1,6 +1,19 @@
+%% Confusion matrix (Classification)
 function [c_mat] = c_matrix(handles, featurelist, PRED_, NPRED_, Y, YLAB, var, thresh, var_case)
-%visualize confusion matrix (summed across k folds)
-%representing all instances
+% confusion matrix across sum of all K-folds.
+% featurelist: list of all features included in model
+% PRED_: predicted class label value (1 or 2)
+% NPRED_:  predicted class label value (1 or 2) - nuisance only model
+% Y: actual label 
+% YLAB: class/label names/tags
+% var: 
+% thresh:
+% var_case:
+
+
+
+
+
 set(handles.HideNSig_Check,'Enable','off');
 set(handles.correction_type, 'Value', 1);
 set(handles.L_Graph,'String',{'All' featurelist{:}},'Enable','inactive', 'Value', 1); 
@@ -12,7 +25,7 @@ set(handles.L_thresh,'String',handles.thresholds, 'Enable','on');
 set(handles.AlphaLevel ,'Enable','off') ;
 set(handles.PValues ,'Enable','off') ;
 set(handles.L_thresh,'Max',1,'Min',0);
-colormap(handles.ResultAxes,'default')
+colormap(handles.ResultAxes,'default');
 
 YLAB = YLAB(:, var);
 if ~isempty(NPRED_) 

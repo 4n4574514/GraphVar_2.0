@@ -1,7 +1,7 @@
+
+function [TPR, FPR, AUC, P_VAL] = roc_curve(handles, featurelist, PRED, Y, AUC, PP, NP, nRandom, linecolor, var, thresh)
 %% ROC Curve Plot (Classification)
-function [TPR, FPR, AUC, P_VAL] = ROC_curve(handles, featurelist, PRED, Y, AUC, PP, NP, nRandom, LineColor, var, thresh)
 % Preps and plots Receiver Operating Characteristic curve 
-% Input arguments %%%%% 
 % handles:GUI handles
 % featurelist: list of features used in prediction
 % PRED: Predicted Outcome 
@@ -9,7 +9,10 @@ function [TPR, FPR, AUC, P_VAL] = ROC_curve(handles, featurelist, PRED, Y, AUC, 
 % AUC: Area under the curve 
 % PP: Parametric P-Value for ROC
 % NP: Non Parametric P-Value for ROC 
-% Input mode: Full model or Nuisance Model (based on nuisance covariates only)
+% nRandom: number of permutations
+% linecolor: color of plot lines 
+% var: current user selected prediction target (if multiple)
+% thresh: current user selected threshold 
 
 % reset feature listbox AND brain areas listbox
 set(handles.HideNSig_Check,'Enable','off');
@@ -59,8 +62,8 @@ hold on
 C1 = plot(FPR, TPR, 'LineWidth', 1);
 C1b = plot(FPR, TPR, 'o');
 set(C1b,'LineWidth', 2);
-set(C1, 'Color', LineColor)
-set(C1b, 'Color', LineColor);
+set(C1, 'Color', linecolor)
+set(C1b, 'Color', linecolor);
 
 xlim([0 1.05]);
 ylim([0 1.05]);                

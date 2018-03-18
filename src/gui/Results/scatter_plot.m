@@ -1,6 +1,6 @@
-%% Scatter Plot (Regression)
-function [Y, PRED, R2] = scatter_plot(handles, featurelist, PRED, Y, R, LineColor, thresh, Y1, PRED1, var, var_case)
 
+function [Y, PRED, R2] = scatter_plot(handles, featurelist, PRED, Y, R, LineColor, thresh, Y1, PRED1, var, var_case)
+%% Scatter Plot (Regression)
 % outcome field enable
 % features field disable
 % threshold field enable

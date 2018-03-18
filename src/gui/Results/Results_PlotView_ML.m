@@ -1,8 +1,9 @@
 
-function ML_ResultsPlots(hObject,handles)
+function Results_PlotView_ML(hObject,handles)
+%% Plots results for classification and regression 
 % called inside Results_PlotView
 % Prepares ML Results GUI and data 
-% Plots classification and regression plots (ML) 
+% Calls classification and regression plots functions (ML) 
 
 global result_path;
 global result_folder;
@@ -11,31 +12,31 @@ global result_folder;
 handles.brainSelect = brain;
 
 %% Disable specific buttons for Machine Learning Results View
-        set(handles.VPBack ,'Enable','off');                       % VPBack
-        set(handles.OpenVP ,'Enable','off');                       % OpenVP
-        set(handles.VPForward ,'Enable','off') ;                   % VPForward
-        set(handles.Open_PlotMatrix ,'Enable','off') ;             % Open_PlotMatrix
-        
-        %correction panel items...
-        set(handles.correction_type ,'Enable','off')  ;
-        set(handles.CorrectedAlpha ,'Enable','off')  ;
-        set(handles.CorVar ,'Enable','off')     ;
-        set(handles.CorGraph ,'Enable','off')    ;
-        set(handles.CorThresh ,'Enable','off')    ;
-        set(handles.CorBrain ,'Enable','off')  ;
-        set(handles.btn_network ,'Enable','off') ;
-        set(handles.HideNSig_Check,'Enable','off');
-        %top
-        set(handles.nSig ,'Enable','off')  ;
-        set(handles.sigVars ,'Enable','off')  ;
-        set(handles.mod_func ,'Enable','off') ;
+set(handles.VPBack ,'Enable','off');                       % VPBack
+set(handles.OpenVP ,'Enable','off');                       % OpenVP
+set(handles.VPForward ,'Enable','off') ;                   % VPForward
+set(handles.Open_PlotMatrix ,'Enable','off') ;             % Open_PlotMatrix
 
-        set(handles.export_btn,'Enable','on');
-        set(handles.save_plot,'Enable','on');
-        set(handles.Save ,'Enable','on') ;
-        set(handles.Load ,'Enable','on') ;
-        set(handles.AlphaLevel ,'Enable','on') ;
-        set(handles.PValues ,'Enable','on') ;
+%correction panel items...
+set(handles.correction_type ,'Enable','off')  ;
+set(handles.CorrectedAlpha ,'Enable','off')  ;
+set(handles.CorVar ,'Enable','off')     ;
+set(handles.CorGraph ,'Enable','off')    ;
+set(handles.CorThresh ,'Enable','off')    ;
+set(handles.CorBrain ,'Enable','off')  ;
+set(handles.btn_network ,'Enable','off') ;
+set(handles.HideNSig_Check,'Enable','off');
+%top
+set(handles.nSig ,'Enable','off')  ;
+set(handles.sigVars ,'Enable','off')  ;
+set(handles.mod_func ,'Enable','off') ;
+
+set(handles.export_btn,'Enable','on');
+set(handles.save_plot,'Enable','on');
+set(handles.Save ,'Enable','on') ;
+set(handles.Load ,'Enable','on') ;
+set(handles.AlphaLevel ,'Enable','on') ;
+set(handles.PValues ,'Enable','on') ;
    
 %% Load in Results from Calculations         
 % VARIABLES ONLY CASE
@@ -89,25 +90,14 @@ handles.brainSelect = brain;
           end
           
 % corrected feature list (nuisance vars in the end)
-featurelist = get(handles.L_Graph,'String'); featurelist = {featurelist{2:end}} ;  
+featurelist = get(handles.L_Graph,'String'); featurelist = {featurelist{2:end}} ;
 thresh = get(handles.L_thresh,'value');
    if  get(handles.L_Graph,'Value') == 1
              fun= 1:length(featurelist);
    else
-             fun= get(handles.L_Graph,'Value') -1;
-           
+             fun= get(handles.L_Graph,'Value') -1;          
    end 
-                 % No Thresholds Case (no graph metrics as features)
-                 if isempty(handles.thresholds)  
-                   filterFieldStrings{1} = handles.vars(var);
-                   filterFieldStrings{4} = handles.BrainStrings(brain);
-
-                 % Cases including graph metrics as feat. 
-                 else     
-                  filterFieldStrings{1} = handles.vars(var) ;
-                  filterFieldStrings{3} = handles.thresholds(thresh); 
-                  filterFieldStrings{4} = handles.BrainStrings(brain); 
-                 end   
+ 
                        
 %% Define Classification and Regression Plot Choices 
  axes(handles.ResultAxes2); % plot performance metrics to additional axes 
@@ -139,13 +129,13 @@ thresh = get(handles.L_thresh,'value');
                end
     end
 
-    set(handles.GroupTestChooser, 'String', plots);
-    plotNames = get(handles.GroupTestChooser, 'String');
-    plotSelected = get(handles.GroupTestChooser,'Value');
-    plotName = plotNames(plotSelected);
-    plotName = plotName{1};
-    axes(handles.ResultAxes); 
-    
+set(handles.GroupTestChooser, 'String', plots);
+plotNames = get(handles.GroupTestChooser, 'String');
+plotSelected = get(handles.GroupTestChooser,'Value');
+plotName = plotNames(plotSelected);
+plotName = plotName{1};
+axes(handles.ResultAxes); 
+
     
 %% Define Classification and Regression Plot Inputs 
 if  any(regexp(Result.modelType, 'classification$'))
@@ -153,7 +143,7 @@ if  any(regexp(Result.modelType, 'classification$'))
                 case 'ROC curve'
                     cla reset       
                     grid minor
-                    [TPR, FPR, AUC, PVAL] = ROC_curve(handles, featurelist, Result.YPRED, Result.Y, Result.AUC, Result.PP, Result.NP, Result.nRandom, 'blue', var, thresh); 
+                    [TPR, FPR, AUC, PVAL] = roc_curve(handles, featurelist, Result.YPRED, Result.Y, Result.AUC, Result.PP, Result.NP, Result.nRandom, 'blue', var, thresh); 
                     legend({ 'Full Model', sprintf('AUC: %0.3g', AUC), 'Chance Performance'});
                     set(handles.alt_metric ,'Visible','off') ;
                     % fetch outputs of current function called 
@@ -163,25 +153,25 @@ if  any(regexp(Result.modelType, 'classification$'))
                              set(handles.alt_metric, 'String', metric);
                              metricSelected = get(handles.alt_metric,'Value');
                                       cla reset  
-                                       [TPR, FPR, AUC, PVAL]  = ROC_curve(handles, featurelist, Result.YPRED, Result.Y, Result.AUC, Result.PP, Result.NP, Result.nRandom, 'blue', var, thresh);
-                                      hold on 
-                    
-                                       [TPR2, FPR2, AUC2, PVAL2]  = ROC_curve(handles, featurelist, Result.YNPRED, Result.Y, Result.AUC_N, Result.PPC(thresh), Result.NPC(thresh), Result.nRandom,'red', var, thresh);
+                                       [TPR, FPR, AUC, PVAL]  = roc_curve(handles, featurelist, Result.YPRED, Result.Y, Result.AUC, Result.PP, Result.NP, Result.nRandom, 'blue', var, thresh);
+                                      hold on                   
+                                       [TPR2, FPR2, AUC2, PVAL2]  = roc_curve(handles, featurelist, Result.YNPRED, Result.Y, Result.AUC_N, Result.PPC(thresh), Result.NPC(thresh), Result.nRandom,'red', var, thresh);
                                       legend({'Full Model', sprintf('AUC: %0.3g', AUC), 'Chance Performance', 'Nuisance Model Only', sprintf('AUC: %0.3g', AUC2)});
+                                         
                                          TPR = [TPR; TPR2];
                                          FPR = [FPR; FPR2];
-                                         AUC = [AUC; AUC2];
-                                         PVAL= [PVAL; PVAL2];
+                                         AUC = [AUC; AUC2];    
+                                         PVAL = [PVAL; PVAL2];
                                       grid minor     
                                     if metricSelected == 2 
                                           cla reset       
                                           grid minor
-                                           [TPR, FPR, AUC, PVAL] = ROC_curve(handles, featurelist, Result.YPRED, Result.Y, Result.AUC, Result.PP, Result.NP, Result.nRandom, 'blue', var, thresh);
+                                           [TPR, FPR, AUC, PVAL] = roc_curve(handles, featurelist, Result.YPRED, Result.Y, Result.AUC, Result.PP, Result.NP, Result.nRandom, 'blue', var, thresh);
                                             legend({ 'Full Model', sprintf('AUC: %0.3g', AUC), 'Chance Performance'});
                                     elseif metricSelected == 3 
                                           cla reset
                                           grid minor
-                                        [TPR, FPR, AUC, PVAL] = ROC_curve(handles, featurelist, Result.YNPRED, Result.Y, Result.AUC_N, Result.PPC, Result.NPC, Result.nRandom,'red',  var, thresh);
+                                        [TPR, FPR, AUC, PVAL] = roc_curve(handles, featurelist, Result.YNPRED, Result.Y, Result.AUC_N, Result.PPC, Result.NPC, Result.nRandom,'red',  var, thresh);
                                          legend({ 'Nuisance Only Model', sprintf('AUC: %0.3g', AUC), 'Chance Performance'});
                                     end  
                                      
@@ -190,15 +180,14 @@ if  any(regexp(Result.modelType, 'classification$'))
                             % hovertext ROC
                             LAB = {'FPR', 'TPR'};
                             PlotType = 1;
-                            PlotName = 'ROC';        
-                          
-                            % do not display hover text if values missing 
+                            PlotName = 'ROC';          
                              set(handles.ResultFig,'WindowButtonMotionFcn', ...
                                                     {@pressML,handles,PlotType, FPR, TPR, AUC, PVAL, LAB, PlotName});
                             
                 case 'Precision-Recall Curve'  
-                      cla reset
-                       [PREC, RECALL, AUC] = PR_curve(handles, featurelist, Result.YPRED, Result.Y, 'blue', [], [], var, thresh); % transmit PR AUC (trapezoid method)
+                     cla reset       
+                     grid minor
+                       [PREC, RECALL, AUC] = pr_curve(handles, featurelist, Result.YPRED, Result.Y, 'blue', var, thresh); % transmit PR AUC (trapezoid method)
                            legend({ 'Full Model', sprintf('AUC: %0.3g', AUC)});
                           set(handles.alt_metric ,'Visible','off') ;
                                 if ~isempty(Result.NXLAB)    
@@ -207,22 +196,33 @@ if  any(regexp(Result.modelType, 'classification$'))
                                      set(handles.alt_metric, 'String', metric);
                                      metricSelected = get(handles.alt_metric,'Value');
                                               cla reset
-                                              [PREC, RECALL, AUC] = PR_curve(handles, featurelist, Result.YPRED, Result.Y, 'blue', [], [], var, thresh);
+                                              [PREC, RECALL, AUC] = pr_curve(handles, featurelist, Result.YPRED, Result.Y, 'blue', var, thresh);
                                               hold on 
-                                             [PREC2, RECALL2, AUC2] = PR_curve(handles, featurelist, Result.YNPRED, Result.Y, 'red', PREC, RECALL, var, thresh);
+                                              [PREC2, RECALL2, AUC2] = pr_curve(handles, featurelist, Result.YNPRED, Result.Y, 'red', var, thresh);
+                                              PREC = [PREC; PREC2];
+                                              RECALL = [RECALL; RECALL2];
+                                               
                                                legend({ 'Full Model', sprintf('AUC: %0.3g', AUC),  'Nuisance Only Model', sprintf( 'AUC: %0.3g', AUC2)});
-                                             if metricSelected == 2 
-                                                  cla reset
-                                              [PREC, RECALL, AUC] = PR_curve(handles, featurelist, Result.YPRED, Result.Y, 'blue', [], [], var, thresh);
+                                               grid minor
+                                            if metricSelected == 2 
+                                                cla reset       
+                                                grid minor
+                                              [PREC, RECALL, AUC] = pr_curve(handles, featurelist, Result.YPRED, Result.Y, 'blue', var, thresh);
                                                   legend({ 'Full Model', sprintf('AUC: %0.3g', AUC)});
                                             elseif metricSelected == 3 
-                                                 cla reset
-                                              [PREC2, RECALL2, AUC2]  =PR_curve(handles, featurelist, Result.YNPRED, Result.Y, 'red', [], [], var, thresh);
+                                                cla reset       
+                                                grid minor
+                                              [~, ~, AUC2]  = pr_curve(handles, featurelist, Result.YNPRED, Result.Y, 'red', var, thresh);
                                                   legend({ 'Nuisance Only Model', sprintf('AUC: %0.3g', AUC2)});
                                             end          
                                 end     
-                               grid minor 
-  
+                             
+                                LAB = {'RECALL', 'PREC'};
+                                PlotType = 1;     %ie plot with line or trend 
+                                PlotName = 'PR'; 
+                                set(handles.ResultFig,'WindowButtonMotionFcn', ...
+                                {@pressML,handles,PlotType, RECALL, PREC, [], [], LAB, PlotName});   
+
                 case 'Confusion matrix'
                        cla reset
                           [c_mat] = c_matrix(handles, featurelist, Result.YPRED_,[], Result.Y, Result.YLAB, var, thresh, Result.var_case);     
@@ -243,12 +243,23 @@ if  any(regexp(Result.modelType, 'classification$'))
                                            end          
                           end      
          
-                case 'Feature Weights'                     % set same for Regression and Classification 
-                      cla reset
-              [FEATURE, WEIGHTS, P_VALUES_P, P_VALUES_NP] =  feat_weights(handles, featurelist, Result.XLAB, Result.W, Result.PWF, Result.NPW, Result.nRandom, fun, Result.isHalf, thresh, var, Result.var_case, Result.NXLAB, Result.Outcome);
-
+                case 'Feature Weights'                      % set same for Regression and Classification 
+                  cla reset
+                  [W_S, SLAB, P_VAL_S, PlotType] = feat_weights(handles, featurelist, Result.XLAB, Result.W, Result.PWF, ...
+                      Result.NPW, Result.nRandom, fun, Result.isHalf, thresh, var, Result.var_case, Result.NXLAB, Result.Outcome);
+                   
+                  % set hovertext for feature weights conditional on
+                  % display choice 
+                   if PlotType == 4
+                      set(handles.ResultFig,'WindowButtonMotionFcn', ...
+                        {@pressML,handles,PlotType, W_S, SLAB, P_VAL_S, [], [], []});       
+                   elseif PlotType == 3
+                      set(handles.ResultFig,'WindowButtonMotionFcn', ...
+                        {@pressML,handles,PlotType, W_S, P_VAL_S, SLAB, [], [], []}); 
+                   end
+           
               
-               case 'Histogram (Permutation Performance)'  % set same for Regression and Classification 
+               case 'Histogram (Permutation Performance)'  % set Classification 
                       cla reset
                    [PVAL, MET, MET_perm] =  histogram(handles, featurelist, Result.AUC, Result.ACC, Result.AUC_NP, Result.ACC_NP, 'blue', 'c', ...
                           Result.nRandom, Result.modelType, var, Result.var_case, thresh, Result.NXLAB);
@@ -328,10 +339,20 @@ elseif  any(regexp(Result.modelType, 'regression$'))
                                 
                 case 'Feature Weights'                      % set same for Regression and Classification 
                   cla reset
-                  [FEATURE, WEIGHTS, P_VALUES_P, P_VALUES_NP] = feat_weights(handles, featurelist, Result.XLAB, Result.W, Result.PWF, Result.NPW, Result.nRandom, fun, Result.isHalf, thresh, var, Result.var_case, Result.NXLAB, Result.Outcome);
-                
-                  
-                case 'Histogram (Permutation Performance)'  % set same for Regression and Classification 
+                  [W_S, SLAB, P_VAL_S, PlotType] = feat_weights(handles, featurelist, Result.XLAB, Result.W, Result.PWF, ...
+                      Result.NPW, Result.nRandom, fun, Result.isHalf, thresh, var, Result.var_case, Result.NXLAB, Result.Outcome);
+                   
+                  % set hovertext for feature weights conditional on
+                  % display choice 
+                   if PlotType == 4
+                      set(handles.ResultFig,'WindowButtonMotionFcn', ...
+                        {@pressML,handles,PlotType, W_S, SLAB, P_VAL_S, [], [], PlotName});       
+                   elseif PlotType == 3
+                      set(handles.ResultFig,'WindowButtonMotionFcn', ...
+                        {@pressML,handles,PlotType, W, [], P_VAL_S, [], PlotName}); 
+                   end
+         
+                case 'Histogram (Permutation Performance)'  % for Regression
                   cla reset               
                   [PVAL, MET, MET_perm] =  histogram(handles, featurelist, Result.R, [], Result.RR, [], 'blue', 'c', ...
                           Result.nRandom, Result.modelType, var, Result.var_case, thresh, Result.NXLAB);
@@ -359,6 +380,8 @@ end
 
 %% hover text function for ML plots 
 function pressML(~,~,handles,PlotType,LineX,LineY,LineStat,LineP, LAB, PlotName)
+% display hover text in overlay box for live plot metrics 
+
 
 axes(handles.ResultAxes);
 handles = guidata(handles.ResultFig);
@@ -431,11 +454,11 @@ elseif PlotType == 2
        
          
 elseif PlotType == 3 % Feature Weights (corr_area)
-   
+  
     Indices = round(Point);
     YStr = handles.BrainStrings{Indices(2)}; %Yaxis
     XStr = handles.BrainStrings{Indices(1)}; %Xaxis
-    WT= num2str( LineX(Indices(1), Indices(2))); % weight
+    WT= num2str( LineX(Indices(1), Indices(2)));  % weight
     P_Val  =  num2str( LineY(Indices(1), Indices(2)));
     [YStr XStr WT P_Val];
         if isnan( LineX(Indices(2), Indices(1)))
