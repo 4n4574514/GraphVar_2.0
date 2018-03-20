@@ -74,7 +74,7 @@ doHyperOpt, nHyperOptSteps, doManual, mpar1, mpar2, Outcome)
                Y_ = cell(size(NeoData, 1), length(RES)); 
                Y_ = NeoData(:, RES);
                
-           ischar(Y_{1})
+          
                if  ~ischar(Y_{1})
                    Y_ = cell2mat(Y_);              
                    YLAB = num2str(unique(Y_));

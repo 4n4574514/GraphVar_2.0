@@ -6,7 +6,7 @@ doML = strncmp(handles.Files{1}, 'ML', 2);
  if doML 
  %% ML case 
     % handle inside ml plotviewer script
-    ML_ResultsPlots(hObject,handles) 
+    Results_PlotView_ML(hObject,handles) 
  elseif  ~doML 
  
  %% GLM case 

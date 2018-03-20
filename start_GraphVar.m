@@ -20,7 +20,6 @@ global source_path
 global workspace_path;
 
 global data_path;
-
 global brain_path;
 global Brain_Atlas;
 global ROI_path;

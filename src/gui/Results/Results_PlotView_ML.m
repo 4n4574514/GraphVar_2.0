@@ -174,9 +174,9 @@ if  any(regexp(Result.modelType, 'classification$'))
                                  set(handles.alt_metric, 'String', metric);
                                  metricSelected = get(handles.alt_metric,'Value');
                                           cla reset  
-                                          [TPR, FPR, AUC, PVAL]  = roc_curve(PVal_selected, Result.YPRED, Result.Y, Result.AUC, Result.PP, Result.NP, Result.nRandom, 'blue', var, thresh)
+                                          [TPR, FPR, AUC, PVAL]  = roc_curve(PVal_selected, Result.YPRED, Result.Y, Result.AUC, Result.PP, Result.NP, Result.nRandom, 'blue', var, thresh);
                                           hold on                   
-                                          [TPR2, FPR2, AUC2, PVAL2]  = roc_curve(PVal_selected, Result.YNPRED, Result.Y, Result.AUC_N, Result.PPC(thresh), Result.NPC(thresh), Result.nRandom,'red', var, thresh)
+                                          [TPR2, FPR2, AUC2, PVAL2]  = roc_curve(PVal_selected, Result.YNPRED, Result.Y, Result.AUC_N, Result.PPC(thresh), Result.NPC(thresh), Result.nRandom,'red', var, thresh);
                                           legend({'Full Model', sprintf('AUC: %0.3g', AUC), 'Chance Performance', 'Nuisance Model Only', sprintf('AUC: %0.3g', AUC2)});
                                           TPR = [TPR; TPR2]; FPR = [FPR; FPR2];  AUC = [AUC; AUC2]; PVAL = [PVAL; PVAL2];     
                                           grid minor % add grid as overwritten
@@ -485,11 +485,127 @@ end
 axes(handles.ResultAxes);   % switch back to main ResultAxes 
 
 
-if get(handles.export_btn, 'Value') == 1
-    export_btn_ml(hObject,handles, Result.modelType, plotName, Result.NXLAB, metricSelected)
-end
+% 
+% % fetch output of current function called   
+% if get(handles.export_btn, 'Value') == 1
+%   if ~verLessThan('matlab', '8.3')
+%      if  any(regexp(Result.modelType, 'classification$'))    %% CLASSIFICATION DATA 
+%         switch plotName
+%                 case 'ROC curve'  
+%                            if ~isempty(Result.NXLAB)     
+%                                DATA = padcat([TPR2(1:length(TPR))], [FPR2(1:length(TPR))], [TPR2(length(TPR):end)], [FPR2(length(TPR):end)], ...
+%                                    [AUC], [AUC2], [PVAL], [PVAL2]);
+%                                DATA = table( [DATA(:,1)], [DATA(:,2)], [DATA(:,3)], [DATA(:,4)], [DATA(:,5)], [DATA(:,6)], [DATA(:,7)], [DATA(:,8)] );
+%                                    
+%                            else
+%                                     DATA = padcat([TPR],[FPR], [AUC], [PVAL] ); 
+%                                     DATA = table( [DATA(:,1)], [DATA(:,2)], [DATA(:,3)], [DATA(:,4)]  );
+%                                  if Result.nRandom > 0 
+%                                      DATA.Properties.VariableNames = {'TPR', 'FPR', 'AUC', 'PVAL_PN'};
+%                                  else 
+%                                      DATA.Properties.VariableNames =  {'TPR'  'FPR' 'AUC' 'PVAL_P'};
+%                                  end
+%                            end
+%                            
+%                 case 'Precision-Recall Curve'  
+%                        if ~isempty(Result.NXLAB)     
+%                                DATA = padcat([PREC2(1:length(PREC))], [RECALL2(1:length(PREC))], [PREC2(length(PREC):end)], [RECALL2(length(PREC):end)], [AUC], [AUC2]);
+%                                DATA = table(   [DATA(:,1)], [DATA(:,2)], [DATA(:,3)], [DATA(:,4)], [DATA(:,5)], [DATA(:,6)] );
+%                                DATA.Properties.VariableNames =  {'PREC' 'RECALL' 'PREC_Nui' 'RECALL_Nui' 'AUC' 'AUC_Nui'};                 
+%                        else
+%                                DATA = padcat([PREC], [RECALL], [AUC]);
+%                                DATA = table( [DATA(:,1)], [DATA(:,2)], [DATA(:,3)] );
+%                                DATA.Properties.VariableNames =  {'PREC' 'RECALL' 'AUC'};   
+%                        end
+%                            
+%                 case 'Confusion matrix'      %% fix to combine for nuisance 
+%                      if ~isempty(Result.NXLAB)  &&   metricSelected == 2               
+%                         DATA = table([c_mat], [c_mat2]);  
+%                         DATA.Properties.VariableNames =  {'Full', 'Nuisance'}; 
+%                      else
+%                         DATA = table([c_mat]);
+%                        
+%                      end
+%                      
+%                 case 'Feature Weights' 
+%                         if Result.nRandom > 0 
+%                        DATA = table([FEATURE], [WEIGHTS], [P_VALUES_P], [P_VALUES_NP]);                     
+%                         else
+%                        DATA = table([FEATURE], [WEIGHTS], [P_VALUES_P]);             
+%                         end      
+%                         
+%             case 'Histogram (Permutation Performance)' 
+%                      if ~isempty(Result.NXLAB) 
+%                       DATA = padcat( [PVAL], [MET], [MET_perm], [PVAL2], [MET2], [MET_perm2]); 
+%                       DATA = table( [DATA(:,1)], [DATA(:,2)], [DATA(:,3)], [DATA(:,4)], [DATA(:,5)], [DATA(:,6)] );
+%                       DATA.Properties.VariableNames =  {'PVAL' 'MET' 'MET_perm', 'PVAL_Nui' 'MET_Nui' 'MET_perm_Nui',}; 
+%                      else
+%                       DATA = padcat( [PVAL], [MET], [MET_perm] );
+%                       DATA = table( [DATA(:,1)], [DATA(:,2)], [DATA(:,3)] );
+%                       DATA.Properties.VariableNames =  {'PVAL' 'MET' 'MET_perm'}; 
+%                      end
+%         end
+%       
+%     elseif  any(regexp(Result.modelType, 'regression$'))  %% REGRESSION DATA 
+%         switch plotName   
+%                     case 'Scatter Plot'
+%                               if ~isempty(Result.NXLAB)          
+%                                   DATA = padcat([Y2(1:length(PRED))], [PRED2(1:length(PRED))], [Y2(length(PRED)+1:end)], [PRED2(length(PRED)+1:end)], [R(:, thresh)], [R2]); 
+%                                   DATA = table( [DATA(:,1)], [DATA(:,2)], [DATA(:,3)], [DATA(:,4)], [DATA(:,5)], [DATA(:,6)] );
+%                                   DATA.Properties.VariableNames =  {'Actual', 'Predicted', 'Actual_Nui', 'Predicted_Nui', 'R2', 'R2_Nui'};               
+%                               else
+%                                  % error on PC J multiple thresholds 
+%                                   DATA = padcat([Y], [PRED], [R]); 
+%                                   DATA = table( [DATA(:,1)], [DATA(:,2)], [DATA(:,3)]);
+%                                   DATA.Properties.VariableNames =  {'Actual', 'Predicted', 'R2'};               
+%                               end
+% 
+%                     case 'Residuals Plot'
+%                                if ~isempty(Result.NXLAB)         
+%                                   DATA = padcat([RSDL2(:,1)], [PRED2(:,1)], [RSDL2(:,2)], [PRED2(:,2)]); 
+%                                   DATA = table( [DATA(:,1)], [DATA(:,2)], [DATA(:,3)], [DATA(:,4)] );
+%                                   DATA.Properties.VariableNames =  {'SD_Resid', 'Predicted', 'SD_Resid_Nui', 'Predicted_Nui'};               
+%                              else
+%                                   DATA = padcat([RSDL], [PRED]); 
+%                                   DATA = table( [DATA(:,1)], [DATA(:,2)] );
+%                                   DATA.Properties.VariableNames =  {'SD_Resid', 'Predicted'};               
+%                                end
+% 
+%                     case 'Feature Weights' 
+%                                 if Result.nRandom > 0 
+%                                    DATA = table([FEATURE], [WEIGHTS], [P_VALUES_P], [P_VALUES_NP]);   
+%                                 else
+%                                     DATA = table([FEATURE], [WEIGHTS], [P_VALUES_P]);
+%                                 end
+% 
+%                 case 'Histogram (Permutation Performance)' 
+%                              if ~isempty(Result.NXLAB) 
+%                                   DATA = padcat( [PVAL], [MET], [MET_perm], [PVAL2], [MET2], [MET_perm2]); 
+%                                   DATA = table( [DATA(:,1)], [DATA(:,2)], [DATA(:,3)], [DATA(:,4)], [DATA(:,5)], [DATA(:,6)] );
+%                                   DATA.Properties.VariableNames =  {'PVAL' 'MET' 'MET_perm', 'PVAL_Nui' 'MET_Nui' 'MET_perm_Nui',}; 
+%                              else
+%                                   DATA = padcat( [PVAL], [MET], [MET_perm] );
+%                                   DATA = table( [DATA(:,1)], [DATA(:,2)], [DATA(:,3)] );
+%                                   DATA.Properties.VariableNames =  {'PVAL' 'MET' 'MET_perm'}; 
+%                              end
+%         end 
+%     
+%     end
+% 
+%   end 
+% end 
+% 
+ if get(handles.export_btn, 'Value') == 1
+    errordlg('Data export functionalities undergoing improvement in v.2.1 to allow compatibility with older MATLAB versions. Data export is currently supported in v.2.0. Thank you for your patience.') 
+% [FileName,~] = uiputfile({'*.csv';'*.xlsx'});  
+%    writetable(DATA, FileName);
+ end
 
-
+% if get(handles.export_btn, 'Value') == 1
+%     export_btn_ml(hObject,handles, Result.modelType, plotName, DATA)
+% end
+% 
+% 
 
 
 

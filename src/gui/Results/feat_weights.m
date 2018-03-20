@@ -78,7 +78,7 @@ end
                    AA = rand(a,b);
                    AK = ~triu(AA);
                    BS = BS(AK)';
-                   CML_index = cellfun(@(x)contains(x,'corr_area_'), XLAB);
+                   CML_index = cellfun(@(x)~isempty(strfind(x,'corr_area_')), XLAB);
                    XLAB(CML_index) = [];
                    XLAB = [XLAB BS];               
     end
@@ -116,13 +116,13 @@ end
     P_VALUES_NP = [];
    
 %% CORR_MATRIX ONLY 
-    if (any(strcmp(sel_feat, 'corr_area'))   &&  (length(sel_feat) == 1)  || any(cellfun(@(x)contains(x,'edge'), XLAB)) )
+    if (any(strcmp(sel_feat, 'corr_area'))   &&  (length(sel_feat) == 1)  || any(cellfun(@(x)~isempty(strfind(x,'edge')), XLAB)) )
          % index raw matrix weights & pvals
        
-            if ~any(cellfun(@(x)contains(x,'edge'), XLAB))
-                RM_index = cellfun(@(x)contains(x,'vs'), XLAB);
+            if ~any(cellfun(@(x)~isempty(strfind(x,'edge')), XLAB))
+                RM_index = cellfun(@(x)~isempty(strfind(x,'vs')), XLAB);
             else
-                RM_index = cellfun(@(x)contains(x,'edge'), XLAB);
+                RM_index = cellfun(@(x)~isempty(strfind(x,'edge')), XLAB);
             end
             SLAB = XLAB(RM_index);
             W =  W(RM_index);  
@@ -211,20 +211,20 @@ end
             title('Feature Weights') 
         end
     
- if length(XLAB) == length(ORDER) 
-     FEATURE= XLAB(ORDER); 
-     FEATURE= FEATURE(:,:).';   
-        P_VALUES_P=  P_VAL(ORDER);
-    if nRandom > 0 
-           P_VALUES_NP =  NPPW(ORDER);
-        else 
-           P_VALUES_NP =  [];
-    end 
- else 
-     % fix, exceptions 
- end 
+%  if length(XLAB) == length(ORDER) 
+%      FEATURE= XLAB(ORDER); 
+%      FEATURE= FEATURE(:,:).';   
+%         P_VALUES_P=  P_VAL(ORDER);
+%     if nRandom > 0 
+%            P_VALUES_NP =  NPPW(ORDER);
+%         else 
+%            P_VALUES_NP =  [];
+%     end 
+%  else 
+%      % fix, exceptions 
+%  end 
     
-    PlotType = 4;
-    PlotName = 'W'; 
+    PlotType = 4;    
+    %PlotName = 'W'; 
     
     end

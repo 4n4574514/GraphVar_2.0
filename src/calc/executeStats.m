@@ -58,7 +58,7 @@ NeoData = NeoData(loc + 1, :);
 
 if doML
     actTask = allTasks.getTask('SVM');     actTask.start();
-    actTask.contents
+    actTask.contents;
     
 else
     actTask = allTasks.getTask('GLM');     actTask.start();

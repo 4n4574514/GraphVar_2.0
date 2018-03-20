@@ -25,7 +25,7 @@ function [isParallel, hasParallel, N] = isParallel(varargin)
          if N == 0 && ~isempty(targetN) && targetN > 0
            matlabpool(targetN) ;           
          elseif N ~= 0 && (~isempty(targetN) && targetN ~= N) 
-           matlabpool close
+           matlabpool close;
            matlabpool(targetN);     
          end
 

@@ -685,21 +685,21 @@ for threshold = thresholds
             %% save TxN matrix with the multislice modular assignments of orig. subjects and random networks
             if (multislice ~= 0)
                 multislice_community_assignment(toDel) = [];
-                save([result_path filesep 'GraphVars' filesep 'multislice_community_assignment_slicesXnodes_' num2str(threshold*10) '_' num2str(type) '.mat'],'multislice_community_assignment')
+                save([result_path filesep 'GraphVars' filesep 'multislice_community_assignment_slicesXnodes_' num2str(threshold*10) '_' num2str(type) '.mat'],'multislice_community_assignment');
                 if ~isempty(ResultRand)
                     multislice_community_assignment_random(toDel) = [];
-                    save([result_path filesep 'GraphVars' filesep 'multislice_community_assignment_slicesXnodes_' num2str(threshold*10) '_' num2str(type) '-rand.mat'],'multislice_community_assignment_random')
+                    save([result_path filesep 'GraphVars' filesep 'multislice_community_assignment_slicesXnodes_' num2str(threshold*10) '_' num2str(type) '-rand.mat'],'multislice_community_assignment_random');
                 end
             end
             
             %% if dynamic: save the Result of every graph measure from the orig and random data per sliding window
             if(is_dyn) && multislice ~= 1
                 Result(toDel) = [];
-                save([result_path filesep 'GraphVars' filesep functionList{i_func} '_' num2str(threshold*10) '_' num2str(type) 'per_SW.mat'],'Result', '-v7.3')
+                save([result_path filesep 'GraphVars' filesep functionList{i_func} '_' num2str(threshold*10) '_' num2str(type) 'per_SW.mat'],'Result', '-v7.3');
                 if ~isempty(ResultRand)
                     Result = ResultRandVar;
                     Result(toDel) = [];
-                    save([result_path filesep 'GraphVars' filesep functionList{i_func} '_' num2str(threshold*10) '_' num2str(type) '-rand_per_SW.mat'],'Result', '-v7.3')
+                    save([result_path filesep 'GraphVars' filesep functionList{i_func} '_' num2str(threshold*10) '_' num2str(type) '-rand_per_SW.mat'],'Result', '-v7.3');
                 end
                 if(~running)
                     res = 0;
@@ -708,13 +708,13 @@ for threshold = thresholds
             elseif (~is_dyn) && multislice ~= 1
                 %% if NOT dynamic: save the Result of every graph measure from the orig and random data
                 Result(toDel) = [];
-                save([result_path filesep 'GraphVars' filesep functionList{i_func} '_' num2str(threshold*10) '_' num2str(type) '.mat'],'Result', '-v7.3')
+                save([result_path filesep 'GraphVars' filesep functionList{i_func} '_' num2str(threshold*10) '_' num2str(type) '.mat'],'Result', '-v7.3');
                 if ~isempty(ResultRand)
                     for i_rand = 1:nRandom
                         Result = ResultRandVar(:,i_rand);
                         Result(toDel) = [];
                         Result = rot90(Result,1);
-                        save([result_path filesep 'GraphVars' filesep functionList{i_func} '_' num2str(threshold*10) '_' num2str(type) '-rand' num2str(i_rand) '.mat'],'Result', '-v7.3')
+                        save([result_path filesep 'GraphVars' filesep functionList{i_func} '_' num2str(threshold*10) '_' num2str(type) '-rand' num2str(i_rand) '.mat'],'Result', '-v7.3');
                     end
                 end
                 if(~running)

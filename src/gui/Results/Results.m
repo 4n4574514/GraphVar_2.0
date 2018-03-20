@@ -429,9 +429,14 @@ function btn_network_Callback(hObject, eventdata, handles)
 function save_plot_Callback(hObject, eventdata, handles)
 
 [fname,pth] = uiputfile({'.png'; '.jpeg'; '.eps'; '.pdf'});     
-%export_fig (gca, (sprintf('%s', fname))) ; 
-pth
-export_fig(pth, '-pdf', '-png')
+
+pattern = ".";                         % fix data type for export --- 
+TF = strfind(fname, pattern);
+name = fname(1:TF-1);
+%format = fname(TF+1:end);
+formatSpec = '%s%s';
+str = sprintf(formatSpec,pth,name);
+export_fig(str)
 
 % 2 dependencies: 1. ghostscript 2. 
 % figure out way to clear dependencies 
