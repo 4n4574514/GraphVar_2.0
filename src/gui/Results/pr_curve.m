@@ -1,27 +1,14 @@
 
-function  [PREC, RECALL, AUC] = pr_curve(handles, featurelist, PRED, Y, linecolor, var, thresh)
+function  [PREC, RECALL, AUC] = pr_curve(PRED, Y, linecolor, var, thresh)
 %% PR Curve Plot (Classification)
 % Preps and plots Receiver Operating Characteristic curve 
-% Input arguments %%%%% 
-% handles:GUI handles
-% featurelist: list of features used in prediction
-% PRED: Predicted Outcome 
-% Y: Actual Measure 
-% 
+%
+% PRED: predicted values
+% Y: actual values 
+% linecolor: input color of plot line (i.e. diff. for nuisance)
+% var: prediction outcome user selection (if multiple)
+% thresh: current user selected network threshold 
      
-% reset feature listbox AND brain areas listbox
-set(handles.HideNSig_Check,'Enable','off');
-set(handles.L_Graph,'String',{'All' featurelist{:}},'Enable','inactive', 'Value', 1); 
-set(handles.L_thresh,'String',handles.thresholds, 'Enable','on');
-set(handles.L_brain,'String',handles.BrainStrings, 'Enable','inactive');
-if isempty(handles.thresholds)  
-   set(handles.L_brain,'String',[], 'Enable','off');
-end
-%threshold can only select 1 value maximum   
-set(handles.L_thresh,'Max',1,'Min',0);
-set(handles.PValues,'Enable', 'Off'); 
-set(handles.AlphaLevel ,'Enable','off')  ;
-
 
 if ~(length(PRED) == length(Y))
    PRED = PRED(:, thresh, var);

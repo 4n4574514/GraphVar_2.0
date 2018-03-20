@@ -49,8 +49,8 @@ fprintf('-----------------------------------------------------------\n')
 fprintf('Citing Information:\n')
 fprintf('If you think GraphVar is useful for your work, citing it in your paper would be greatly appreciated.\n')
 fprintf('Please always cite also the first GraphVar publication. i.e., Kruschwitz et al (2015) and Brovkin et al (2018).\n')
-fprintf('Reference: Kruschwitz JD, List D, Waller L, Rubinov M, Walter H, GraphVar: A user-friendly toolbox for comprehensive graph analyses of functional brain connectivity, Journal of Neuroscience Methods (2015), http://dx.doi.org/10.1016/j.jneumeth.2015.02.021\n')
-fprintf('Reference: Brovkin A, Waller L, Dorfschmidt L, Bzdok D, Walter H, Kruschwitz J, GraphVar 2.0: A user-friendly toolbox for machine learning on functional brain connectivity measures, Journal: n.n. \n, pre-print (Arxiv) https://arxiv.org/abs/1803.00082')
+fprintf('Reference: Kruschwitz JD, List D, Waller L, Rubinov M, Walter H, GraphVar: A user-friendly toolbox for comprehensive graph analyses of functional brain connectivity, Journal of Neuroscience Methods (2015), http://dx.doi.org/10.1016/j.jneumeth.2015.02.021 \n')
+fprintf('Reference: Brovkin A, Waller L, Dorfschmidt L, Bzdok D, Walter H, Kruschwitz J, GraphVar 2.0: A user-friendly toolbox for machine learning on functional brain connectivity measures, Journal: (n.n.) pre-print (Arxiv) https://arxiv.org/abs/1803.00082 \n')
 
 
 Welcome();

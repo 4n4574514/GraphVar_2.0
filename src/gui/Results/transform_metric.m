@@ -8,7 +8,7 @@ function [MET_perm, MET] = transform_metric (metricSelected, met1, met2, met1_pe
 % met2_perm: permutation performance metric
 % var: prediction outcome user selection (if multiple)
 % plotcolor: color of current plot (distriguish nuisance case)
-% var_case: determine if variable only features 
+% var_case: determine if variable only feature mode 
 
 
     if plotcolor == 'c' && ~var_case 

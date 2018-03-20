@@ -1,21 +1,28 @@
-%% Performance Metrics Regression 
-function [reg_tab] = metrics_reg(handles, PRED,R, NPRED, RC, Y, var, var_case, thresh)
-% Classification performance metrics 
-% inputs; PRED_: predicted values
-%                 Y:   actual values
-%                 R:   correlation 
+
+function [reg_tab] = metrics_reg(PRED,R, NPRED, RC, Y, var, var_case, thresh)
+%% Performance metrics bar (side) for regression
+% displays various regressinon performance metrics to evaluate model
+% PRED: predicted values
+% R: correlation coefficient 
+% NPRED: predicted values (nuisance only model)
+% RC: correlation coefficient (nuisance only model)
+% Y: actual values
+% var: user selected prediction target (variable) if multiple
+% var_case: determine if variable only feature mode  
+% thresh: current user selected network threshold
 
 if var_case == 0
-PRED = PRED(:, thresh); 
-%PRED = PRED(:, thresh, var); % conflict during multiple outcomes resolved
-R = R(:, thresh, var);
+    PRED = PRED(:, thresh); 
+    %PRED = PRED(:, thresh, var); % conflict during multiple outcomes resolved
+    R = R(:, thresh, var);
 elseif isempty(NPRED) 
-PRED = PRED(:, var);
-R = R(:, var);   
+    PRED = PRED(:, var);
+    R = R(:, var);   
 else    
-PRED = PRED(:, var);
-R = R(:, var);
-end 
+    PRED = PRED(:, var);
+    R = R(:, var);
+end
+
 Y = Y(:, var);
 
 % Coefficient of Determination (R Squared)

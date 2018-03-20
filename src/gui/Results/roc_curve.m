@@ -1,9 +1,8 @@
 
-function [TPR, FPR, AUC, P_VAL] = roc_curve(handles, featurelist, PRED, Y, AUC, PP, NP, nRandom, linecolor, var, thresh)
+function [TPR, FPR, AUC, P_VAL] = roc_curve(PVal_selected, PRED, Y, AUC, PP, NP, nRandom, linecolor, var, thresh)
 %% ROC Curve Plot (Classification)
 % Preps and plots Receiver Operating Characteristic curve 
-% handles:GUI handles
-% featurelist: list of features used in prediction
+%
 % PRED: Predicted Outcome 
 % Y: Actual Measure 
 % AUC: Area under the curve 
@@ -14,25 +13,6 @@ function [TPR, FPR, AUC, P_VAL] = roc_curve(handles, featurelist, PRED, Y, AUC, 
 % var: current user selected prediction target (if multiple)
 % thresh: current user selected threshold 
 
-% reset feature listbox AND brain areas listbox
-set(handles.HideNSig_Check,'Enable','off');
-set(handles.L_Graph,'String',{'All' featurelist{:}},'Enable','inactive', 'Value', 1); 
-set(handles.L_thresh,'String',handles.thresholds, 'Enable','on');
-set(handles.L_brain,'String',handles.BrainStrings, 'Enable','inactive');
-    if isempty(handles.thresholds)  && ~any(strcmp( 'corr_area', featurelist))
-        set(handles.L_brain,'String',[], 'Enable','off');
-    end
-set(handles.L_thresh,'Max',1,'Min',0);
-set(handles.AlphaLevel ,'Enable','off')  ;
-
-% Correction Panel
-set(handles.CorrectedAlpha ,'Enable','off')  ;
-set(handles.correction_type ,'Enable','on')  ;
-set(handles.correction_type,'String','P-Value Type','Enable','on');
-set(handles.PValues ,'Enable','off')  ;
-pval_type = {'Parametric P-Val', 'Permutation P-Val'};
-set(handles.correction_type, 'String', pval_type);
-PVal_selected = get(handles.correction_type,'Value');
 
 % fetch user selected, avoid conflict 
 if ~(length(PRED) == length(Y))
@@ -92,6 +72,14 @@ P_VAL = [];
                return
            end
     end 
-                                     
+
+ if length(P_VAL) > 1 
+     
+     P_VAL = P_VAL(:, thresh);
+ end 
+    
+    
+    
+grid minor
 
 end

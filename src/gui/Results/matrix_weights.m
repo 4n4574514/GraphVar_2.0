@@ -1,5 +1,7 @@
+
 function [W, P_VAL, PlotType] = matrix_weights(handles, W, P_VAL, CORRECTION, isHalf)
 %% feature weights (for classification or regression) for matrix display only
+% exception(also nxn features such as edge_betweenness)
 % nested inside feature_weights function 
 % displays feature weights for correlation matrix alone
 % handles: GUI input

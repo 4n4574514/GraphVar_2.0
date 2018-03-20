@@ -1,6 +1,11 @@
-%% Reshape Corr Matrix (Feature Weights)
+
 function [STAT] = shape_ml(handles,STAT, isHalf)
-% Transforms Weights or P-value scores to corr matrix size
+%% Reshape Corr Matrix (Feature Weights)
+% Transforms weights or p-value scores to corr matrix size
+% handles: 
+% STAT: feature weights or p values
+% isHalf: logical to determine if matrix symmetric 
+
     if isHalf == 1
         %transform to fit brainstring x brainstring
         STAT_ = zeros(length(handles.BrainStrings), length(handles.BrainStrings));

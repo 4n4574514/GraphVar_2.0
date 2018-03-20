@@ -243,7 +243,7 @@ else
     names = fieldnames(Results);
     
     idx = find(strcmp(names,'is_dyn'), 1);
-    if ~isempty(idx) && Results.is_dyn == 1;
+    if ~isempty(idx) && Results.is_dyn == 1
         setappdata(hObject,'isDyn',1)
         names(end+1) = {'Dynamic Mean Matrix'};
         is_dyn = 1;
@@ -429,7 +429,9 @@ function btn_network_Callback(hObject, eventdata, handles)
 function save_plot_Callback(hObject, eventdata, handles)
 
 [fname,pth] = uiputfile({'.png'; '.jpeg'; '.eps'; '.pdf'});     
-export_fig (gca, (sprintf('%s', fname))) ; 
+%export_fig (gca, (sprintf('%s', fname))) ; 
+pth
+export_fig(pth, '-pdf', '-png')
 
 % 2 dependencies: 1. ghostscript 2. 
 % figure out way to clear dependencies 

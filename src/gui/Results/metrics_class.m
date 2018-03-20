@@ -1,7 +1,15 @@
-function [c_met] = metrics_class(handles, PRED_, NPRED_, Y,  AUC, AUC_N, var, thresh, var_case)
-% Classification performance metrics 
-% inputs; PRED_: predicted class
-%                 Y:   actual class
+
+function [c_met] = metrics_class(PRED_, NPRED_, Y,  AUC, AUC_N, var, thresh, var_case)
+%% Performance metrics bar (side) for classification 
+% displays various classification metrics to evaluate model
+% PRED_ : predicted values (converted)
+% NPRED_: predicted values (converted) nuisance only 
+% Y : actual values
+% AUC: area under curve score 
+% AUC_N: area under curve score (nuisance) 
+% var: prediction outcome user selection (if multiple)
+% thresh: current user selected network threshold 
+% var_case: determine if variable only feature mode 
 
 if var_case == 0
 PRED_ = PRED_(:, thresh, var);

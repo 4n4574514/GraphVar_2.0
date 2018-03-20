@@ -396,8 +396,6 @@ end
 
 %ML related error messages... 
 
-
-
 if ~strcmp(get(get(handles.tabgroup, 'SelectedTab'), 'Title'), 'GLM')
         beep on % turn on beep warning sound 
         %determine type input (response) appropriate for test selected

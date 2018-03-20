@@ -1,4 +1,4 @@
-function [W_S, SLAB, P_VAL_S, PlotType] = feat_weights(handles, featurelist, XLAB, W, PPW, NPPW, nRandom, fun, isHalf, thresh, var, var_case, ~, Outcome)
+function [W_S, SLAB, P_VAL_S, PlotType] = feat_weights(handles, featurelist, XLAB, W, PPW, NPPW, nRandom, fun, isHalf, thresh, var, var_case, Outcome)
 %% feature weights (for classification or regression)
 % handles: GUI input
 % featurelist: list of features
@@ -18,13 +18,13 @@ set(handles.HideNSig_Check,'Enable','on');
 set(handles.L_Graph,'String',{'All' featurelist{:}},'Enable','on'); 
 
 if ~var_case 
-W = W(:, thresh, var);
-PPW = PPW(:, thresh , var);
-NPPW = NPPW(:, thresh, var);
+    W = W(:, thresh, var);
+    PPW = PPW(:, thresh , var);
+    NPPW = NPPW(:, thresh, var);
 else % var only 
-W = W(:,var);
-PPW = PPW(:, var);
-NPPW = NPPW(:, var);
+    W = W(:,var);
+    PPW = PPW(:, var);
+    NPPW = NPPW(:, var);
 end
 
         if isempty(handles.thresholds)  && isempty(strmatch( 'corr_area', featurelist))
@@ -78,7 +78,7 @@ end
                    AA = rand(a,b);
                    AK = ~triu(AA);
                    BS = BS(AK)';
-                   CML_index = cellfun(@(x)~isempty(strfind(x,'corr_area_')), XLAB);
+                   CML_index = cellfun(@(x)contains(x,'corr_area_'), XLAB);
                    XLAB(CML_index) = [];
                    XLAB = [XLAB BS];               
     end

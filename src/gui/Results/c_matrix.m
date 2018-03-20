@@ -1,31 +1,16 @@
+
+function [c_mat] = c_matrix(PRED_, NPRED_, Y, YLAB, var, thresh, var_case)
 %% Confusion matrix (Classification)
-function [c_mat] = c_matrix(handles, featurelist, PRED_, NPRED_, Y, YLAB, var, thresh, var_case)
 % confusion matrix across sum of all K-folds.
-% featurelist: list of all features included in model
+% 
 % PRED_: predicted class label value (1 or 2)
 % NPRED_:  predicted class label value (1 or 2) - nuisance only model
 % Y: actual label 
 % YLAB: class/label names/tags
-% var: 
-% thresh:
-% var_case:
+% var: prediction outcome user selection (if multiple)
+% thresh: current user selected network threshold
+% var_case: determine if variable only feature mode 
 
-
-
-
-
-set(handles.HideNSig_Check,'Enable','off');
-set(handles.correction_type, 'Value', 1);
-set(handles.L_Graph,'String',{'All' featurelist{:}},'Enable','inactive', 'Value', 1); 
-set(handles.L_brain,'String',handles.BrainStrings, 'Enable','inactive');
-set(handles.L_thresh,'String',handles.thresholds, 'Enable','on');
-    if isempty(handles.thresholds)  && isempty(strmatch( 'corr_area', featurelist))
-       set(handles.L_brain,'String',[], 'Enable','off');
-    end
-set(handles.AlphaLevel ,'Enable','off') ;
-set(handles.PValues ,'Enable','off') ;
-set(handles.L_thresh,'Max',1,'Min',0);
-colormap(handles.ResultAxes,'default');
 
 YLAB = YLAB(:, var);
 if ~isempty(NPRED_) 
@@ -40,8 +25,7 @@ Y= Y(:, var);
 
 %c_mat percentages of overall
 c_mat_PC = (c_mat)/(length(PRED_)) *100;
-cmap=  colormap([1 0 0; 0 1 0]);
-colormap(handles.ResultAxes, cmap)
+
 AI = [1 0; 0 1];
 A = imagesc(AI);
 %A = imagesc(c_mat);
@@ -105,12 +89,6 @@ else % MATLAB <2016a
     set(gca, 'YTick', []);
 
 end
-
-     if ~verLessThan('matlab', '8.3')
-           handles.PlotTable = table( [c_mat]);
-         else
-           handles.PlotTable = [c_mat];
-     end
 
 title('Confusion Matrix (Summed over Folds)');
 end

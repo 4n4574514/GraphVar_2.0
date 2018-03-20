@@ -1,10 +1,18 @@
 
-function [Y, PRED, R2] = scatter_plot(handles, featurelist, PRED, Y, R, LineColor, thresh, Y1, PRED1, var, var_case)
+function [Y, PRED, R2] = scatter_plot(handles, featurelist, PRED, Y, R, linecolor, thresh, Y1, PRED1, var, var_case)
 %% Scatter Plot (Regression)
-% outcome field enable
-% features field disable
-% threshold field enable
-% brain strings field disable
+% scatter plot to display model performance incl. R squared 
+% handles: user selections in GUI 
+% featurelist: list of features used in prediction
+% PRED: predicted values
+% Y: actual values
+% R: correlation coefficient 
+% linecolor: input of plot line color (diff. 2nd run/nui) 
+% thresh: current user selected network threshold 
+% Y1: actual values (2nd run)
+% PRED1: predicted values (2nd run) 
+% var: prediction outcome user selection (if multiple)
+% var_case: determine if variable only feature mode 
 
 set(handles.L_Graph,'String',{'All' featurelist{:}},'Enable','inactive', 'Value', 1);  
 set(handles.L_thresh,'Max',1,'Min',0);
@@ -13,8 +21,7 @@ if isempty(handles.thresholds)  && isempty(strmatch( 'corr_area', featurelist))
     set(handles.L_brain,'String',[], 'Enable','off');
 end
 
-
-    if LineColor == 'r' || var_case == 1 
+    if linecolor == 'r' || var_case == 1 
         PRED = PRED(:, var);
         R = R(:, var); 
         else 
@@ -27,8 +34,8 @@ Y = Y(:, var);
 
 A1 = scatter(PRED,Y,'o');
 set(A1,'LineWidth', 3);
-set(A1, 'MarkerFaceColor', LineColor); 
-set(A1, 'MarkerEdgeColor', LineColor); 
+set(A1, 'MarkerFaceColor', linecolor); 
+set(A1, 'MarkerEdgeColor', linecolor); 
 xlim([0 max(PRED)]);
 ylim([0 max(Y)]);                % correct axis limits so plot allows border visual
 title('Predicted vs Actual','FontSize',14); % Adds title
@@ -53,7 +60,7 @@ AXL = max([max(Y) max(PRED)]); AXL = AXL + (AXL*0.2);
 ylim ([0 AXL]);
 xlim ([0 AXL]);
 h1 = lsline;
-set(h1(1),'color',LineColor, 'LineStyle','--');
+set(h1(1),'color',linecolor, 'LineStyle','--');
 % set(gca,'FontName', 'Courier');
 
 if ~isempty(Y1)
@@ -62,10 +69,4 @@ PRED = [PRED1; PRED];
 set(h1(2),'color','b', 'LineStyle','--');
 end
 
-%hovertext
-LAB = {'Predicted', 'Actual'};
-PlotType = 1;
-PlotName = 'SC';
-set(handles.ResultFig,'WindowButtonMotionFcn', ...
-{@pressML,handles,PlotType, PRED, Y, [], [], LAB, PlotName});
 end

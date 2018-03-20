@@ -1,5 +1,11 @@
-%% Reshape Feature Weights Values and Labels
+
 function [STAT, SLAB] = shape_plot(STAT, SLAB)
+%% Reshape Feature Weights Values and Labels
+% reshapes weights values and feature labels for plot display
+% STAT: weight or p value 
+% SLAB: label of user selected features
+
+
 A = length(STAT);
 A = length (SLAB);
  if A >=  10          

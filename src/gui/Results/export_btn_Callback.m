@@ -1,6 +1,6 @@
 function export_btn_Callback(hObject, eventdata, handles)
 %% Export data inside Resuls viewer 
-
+% exports data as csv or xlsx
 doML = strncmp(handles.Files{1}, 'ML', 2);  
 
  if doML 
